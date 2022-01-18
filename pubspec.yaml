@@ -31,7 +31,7 @@ dependencies:
     sdk: flutter
 
 
-  
+
   cupertino_icons: ^1.0.2
   splash_screen_view: ^3.0.0
   firebase_auth: ^3.3.4
@@ -62,7 +62,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   woosignal: ^3.0.3
   uuid: ^3.0.5
-  fluttertoast: ^8.0.8
+  
   
 
 

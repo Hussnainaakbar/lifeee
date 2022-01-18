@@ -18,6 +18,7 @@ class ShopHome extends StatefulWidget {
 }
 
 class _ShopHomeState extends State<ShopHome> {
+  bool checking = false;
   int count = 0;
   var cartKey = Uuid().v4().toString().substring(0, 7);
 
@@ -42,8 +43,12 @@ class _ShopHomeState extends State<ShopHome> {
             "wp-json/cocart/v2/cart/add-item?id=$id&cart_key=$cartKey"),
         headers: header);
     if (response.statusCode == 200) {
+      setState(() {
+        checking = true;
+      });
       print('added to cart');
     } else {
+      checking = false;
       print('cart not order');
     }
   }
@@ -96,7 +101,8 @@ class _ShopHomeState extends State<ShopHome> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CartView(cartKey: cartKey)));
+                        builder: (context) =>
+                            CartView(cartKey: cartKey, checking: checking)));
               },
               child: CircleAvatar(
                   radius: 20,

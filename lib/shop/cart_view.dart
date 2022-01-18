@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:life_style_app/shop/order_view.dart';
 
 class CartView extends StatelessWidget {
+  final bool checking;
   final String? cartKey;
-  const CartView({Key? key, this.cartKey}) : super(key: key);
+  CartView({Key? key, this.cartKey, required this.checking}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +49,18 @@ class CartView extends StatelessWidget {
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => OrderView(orders: orders)));
+                if (checking == true) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => OrderView(orders: orders)));
+                } else {
+                  Fluttertoast.showToast(
+                      msg: "server not responding try again and add items ",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 4);
+                }
               },
               child: Text(
                 "Proceed",
