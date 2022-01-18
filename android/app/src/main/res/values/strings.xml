@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">lifestyleapps</string>
+    <string name="facebook_app_id">272923858158947</string>
+    <string name="fb_login_protocol_scheme">fb272923858158947</string>
+    <string name="facebook_client_token">3179a01429e3b85b3da99e7f615bb2a4</string>
+</resources>
+
