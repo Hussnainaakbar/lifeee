@@ -46,8 +46,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(scaffoldBackgroundColor: const Color(0xFFEFEFEF)),
           title: 'Life Style App',
           debugShowCheckedModeBanner: false,
-          // home: NavigationPage(),
-          home: ShopHome(),
+          home: NavigationPage(),
         );
       }),
     );

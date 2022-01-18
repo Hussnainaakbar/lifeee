@@ -37,7 +37,10 @@ class _ShopHomeState extends State<ShopHome> {
     var basrUrl = "https://nutriana.surnaturel.ma/";
     var client = http.Client();
     Map<String, String> header = {'content-type': 'application/json'};
-    var response = await client.post(Uri.parse(basrUrl + "wp-json/cocart/v2/cart/add-item?id=$id&cart_key=$cartKey"), headers: header);
+    var response = await client.post(
+        Uri.parse(basrUrl +
+            "wp-json/cocart/v2/cart/add-item?id=$id&cart_key=$cartKey"),
+        headers: header);
     if (response.statusCode == 200) {
       print('added to cart');
     } else {
@@ -61,7 +64,8 @@ class _ShopHomeState extends State<ShopHome> {
                 padding: const EdgeInsets.all(6.0),
                 child: InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => ShopHome()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ShopHome()));
                     },
                     child: Image.asset(
                       'assets/icons/shop.jpg',
@@ -72,7 +76,8 @@ class _ShopHomeState extends State<ShopHome> {
               ),
               InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) => ReviewStar()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ReviewStar()));
                   },
                   child: Image.asset(
                     'assets/icons/star.jpg',
@@ -88,7 +93,10 @@ class _ShopHomeState extends State<ShopHome> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CartView(cartKey: cartKey)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CartView(cartKey: cartKey)));
               },
               child: CircleAvatar(
                   radius: 20,
@@ -103,7 +111,10 @@ class _ShopHomeState extends State<ShopHome> {
             ),
             Text(
               '$count+',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 16),
             ),
           ],
         ),
@@ -140,7 +151,10 @@ class _ShopHomeState extends State<ShopHome> {
                     child: Center(
                         child: Text(
                       'المتجر',
-                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 34, letterSpacing: 3),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 34,
+                          letterSpacing: 3),
                     ))),
                 SizedBox(
                   height: 8,
@@ -152,7 +166,8 @@ class _ShopHomeState extends State<ShopHome> {
                     child: Text(
                       'مرحبا بكم على متجر نوتريانا الذي نقترح فيه عليكم مكملات غذائية طبيعية تساعد في زيادة قوة الجسم ، زيادة الكتلة العضلية و محاربة أعراض القولون العصبي',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
@@ -180,27 +195,42 @@ class _ShopHomeState extends State<ShopHome> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (_) => ProductOverview(
-                                          productUrl: snapshot.data[index]["images"][0]["src"].toString(),
-                                          productName: snapshot.data[index]["name"].toString(),
-                                          productPrice: snapshot.data[index]["price"].toString(),
-                                          discrition: snapshot.data[index]["description"].toString(),
+                                          productUrl: snapshot.data[index]
+                                                  ["images"][0]["src"]
+                                              .toString(),
+                                          productName: snapshot.data[index]
+                                                  ["name"]
+                                              .toString(),
+                                          productPrice: snapshot.data[index]
+                                                  ["price"]
+                                              .toString(),
+                                          discrition: snapshot.data[index]
+                                                  ["description"]
+                                              .toString(),
                                           count: count,
+                                          id: snapshot.data[index]['id'],
                                         )));
                           },
                           child: Column(
                             children: [
                               ListTile(
                                 leading: Image.network(
-                                  snapshot.data[index]["images"][0]["src"].toString(),
+                                  snapshot.data[index]["images"][0]["src"]
+                                      .toString(),
                                   height: 50,
                                 ),
                                 title: Flexible(
                                   child: Text(
                                     snapshot.data[index]["name"].toString(),
-                                    style: TextStyle(fontSize: 16, color: Color(0xffFDB640), fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xffFDB640),
+                                        fontWeight: FontWeight.bold,
+                                        overflow: TextOverflow.ellipsis),
                                   ),
                                 ),
-                                subtitle: Text("Buy now for \AED " + snapshot.data[index]["price"].toString()),
+                                subtitle: Text("Buy now for \AED " +
+                                    snapshot.data[index]["price"].toString()),
                                 trailing: InkWell(
                                   onTap: () {
                                     setState(() {

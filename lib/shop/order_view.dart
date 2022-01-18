@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
+import 'package:life_style_app/shop/shop_home.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OrderView extends StatefulWidget {
   final List? orders;
@@ -13,12 +15,21 @@ class OrderView extends StatefulWidget {
 }
 
 class _OrderViewState extends State<OrderView> {
-  List fields = ['Name', 'Address', 'Town', 'Telephone', 'Email', 'Order notes(optional)'];
+  bool orderP = false;
+  List fields = [
+    'Name',
+    'Address',
+    'Town',
+    'Telephone',
+    'Email',
+    'Order notes(optional)'
+  ];
   var fieldControllers = [];
 
   @override
   void initState() {
-    fieldControllers = List.generate(fields.length, (index) => TextEditingController());
+    fieldControllers =
+        List.generate(fields.length, (index) => TextEditingController());
     super.initState();
   }
 
@@ -29,7 +40,10 @@ class _OrderViewState extends State<OrderView> {
 
     var basrUrl = "https://nutriana.surnaturel.ma/";
     var client = http.Client();
-    Map<String, String> header = {'Accept': '*/*', 'Content-Type': 'application/json; charset=UTF-8'};
+    Map<String, String> header = {
+      'Accept': '*/*',
+      'Content-Type': 'application/json; charset=UTF-8'
+    };
     var response = await client.post(
         Uri.parse(basrUrl +
             "wp-json/wc/v2/orders/?consumer_key=ck_29ce6d9108bbfa3f38c7e58c17c040cdbbff1730&consumer_secret=cs_f7321e6cd6374655ef6a4040713b82c6c5b42bcc"),
@@ -37,6 +51,7 @@ class _OrderViewState extends State<OrderView> {
         body: body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('ORDER IS PLACED');
+      orderP = true;
     } else {
       print('ORDER NOT PLACED');
     }
@@ -46,24 +61,57 @@ class _OrderViewState extends State<OrderView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Place your order"),
+          backgroundColor: Color(0xffFDB640),
+          title: Text("Place your order",
+              style: TextStyle(color: Colors.black, fontSize: 18)),
           actions: [
             TextButton(
                 onPressed: () {
                   print("BUTTON PRESSED");
                   placeOrder();
+                  if (orderP == true) {
+                    Fluttertoast.showToast(
+                        msg: "Order Placed Successfully",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 4);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Empty Field or Invalid information",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 4);
+                  }
+
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => ShopHome()));
                 },
                 child: Text(
                   "Done",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black, fontSize: 20),
                 ))
           ],
+          leading: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Colors.black,
+                  )),
+            ],
+          ),
         ),
-        body: Column(
+        body: ListView(
           children: fields
               .mapIndexed<Widget>((index, e) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      keyboardType: e == 'Telephone'
+                          ? TextInputType.phone
+                          : TextInputType.name,
                       decoration: InputDecoration(
                         hintText: e,
                         label: Text(e),

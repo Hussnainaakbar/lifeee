@@ -13,8 +13,10 @@ class CartView extends StatelessWidget {
     late List orders = [];
     var keys;
     Future getCartItems() async {
-      final url = 'http://nutriana.surnaturel.ma/wp-json/cocart/v1/get-cart?cart_key=$cartKey';
-      final response = await http.get(Uri.parse(url), headers: {"Accept": "application/json"});
+      final url =
+          'http://nutriana.surnaturel.ma/wp-json/cocart/v1/get-cart?cart_key=$cartKey';
+      final response = await http
+          .get(Uri.parse(url), headers: {"Accept": "application/json"});
       if (response.statusCode == 200) {
         var decoded = json.decode(response.body);
         keys = decoded.keys.toList();
@@ -27,15 +29,35 @@ class CartView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("YOUR CART"),
+        leading: Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.black,
+                )),
+          ],
+        ),
+        backgroundColor: Color(0xffFDB640),
+        title: Text("YOUR CART",
+            style: TextStyle(color: Colors.black, fontSize: 18)),
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderView(orders: orders)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderView(orders: orders)));
               },
               child: Text(
                 "Proceed",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ))
         ],
       ),
@@ -47,16 +69,33 @@ class CartView extends StatelessWidget {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 var data = {
-                  'product_id': snapshot.data[keys[index].toString()]['product_id'].toString(),
-                  'quantity': snapshot.data[keys[index].toString()]['quantity'].toString()
+                  'product_id': snapshot.data[keys[index].toString()]
+                          ['product_id']
+                      .toString(),
+                  'quantity': snapshot.data[keys[index].toString()]['quantity']
+                      .toString()
                 };
                 orders.add(data);
-                var title = snapshot.data[keys[index].toString()]['product_title'].toString();
-                var subtitle = snapshot.data[keys[index].toString()]['product_price'].toString();
-                return ListTile(
-                  leading: Icon(Icons.production_quantity_limits),
-                  title: Text(title),
-                  subtitle: Text("Price: " + subtitle),
+                var title = snapshot.data[keys[index].toString()]
+                        ['product_title']
+                    .toString();
+                var subtitle = snapshot.data[keys[index].toString()]
+                        ['product_price']
+                    .toString();
+                var quantit = snapshot.data[keys[index].toString()]['quantity']
+                    .toString();
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    leading: Icon(Icons.production_quantity_limits),
+                    title: Text(title),
+                    subtitle: Text("Price: " + subtitle,
+                        style: TextStyle(fontWeight: FontWeight.w900)),
+                    trailing: Text(
+                      "Quantity: " + quantit,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 );
               },
             );
