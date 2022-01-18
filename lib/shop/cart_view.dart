@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:life_style_app/shop/order_view.dart';
 
 class CartView extends StatelessWidget {
   final String? cartKey;
@@ -9,6 +10,7 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late List orders = [];
     var keys;
     Future getCartItems() async {
       final url = 'http://nutriana.surnaturel.ma/wp-json/cocart/v1/get-cart?cart_key=$cartKey';
@@ -28,7 +30,9 @@ class CartView extends StatelessWidget {
         title: Text("YOUR CART"),
         actions: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => OrderView(orders: orders)));
+              },
               child: Text(
                 "Proceed",
                 style: TextStyle(color: Colors.white),
@@ -42,6 +46,11 @@ class CartView extends StatelessWidget {
             return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
+                var data = {
+                  'product_id': snapshot.data[keys[index].toString()]['product_id'].toString(),
+                  'quantity': snapshot.data[keys[index].toString()]['quantity'].toString()
+                };
+                orders.add(data);
                 var title = snapshot.data[keys[index].toString()]['product_title'].toString();
                 var subtitle = snapshot.data[keys[index].toString()]['product_price'].toString();
                 return ListTile(

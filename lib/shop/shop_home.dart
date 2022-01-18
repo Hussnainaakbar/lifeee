@@ -1,19 +1,18 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:life_style_app/screens/cat_screen/cary_screen.dart';
 import 'package:life_style_app/screens/drawers/m_g_drawer_side.dart';
+import 'package:life_style_app/shop/cart_view.dart';
 import 'package:life_style_app/shop/product_over_view.dart';
 import 'package:life_style_app/shop/review_star.dart';
+import 'package:uuid/uuid.dart';
 import 'package:woocommerce_api/woocommerce_api.dart';
 import 'package:woosignal/models/payload/order_wc.dart';
 import 'package:woosignal/models/response/products.dart';
 import 'package:woosignal/woosignal.dart';
 import 'package:http/http.dart' as http;
 
-
 class ShopHome extends StatefulWidget {
-
   @override
   _ShopHomeState createState() => _ShopHomeState();
 }
@@ -21,11 +20,6 @@ class ShopHome extends StatefulWidget {
 class _ShopHomeState extends State<ShopHome> {
   int count = 0;
   var cartKey = Uuid().v4().toString().substring(0, 7);
-
-
-
-
-
 
   Future _getProducts() async {
     // Initialize the API
@@ -39,7 +33,7 @@ class _ShopHomeState extends State<ShopHome> {
     return products;
   }
 
-    addToCart(int id) async {
+  addToCart(int id) async {
     var basrUrl = "https://nutriana.surnaturel.ma/";
     var client = http.Client();
     Map<String, String> header = {'content-type': 'application/json'};
@@ -51,9 +45,6 @@ class _ShopHomeState extends State<ShopHome> {
     }
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,24 +53,30 @@ class _ShopHomeState extends State<ShopHome> {
         height: 85,
         color: Color(0xffFDB640),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0,right: 24),
+          padding: const EdgeInsets.only(left: 15.0, right: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: InkWell(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>ShopHome()));
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => ShopHome()));
                     },
-                    child: Image.asset('assets/icons/shop.jpg',)),
+                    child: Image.asset(
+                      'assets/icons/shop.jpg',
+                    )),
               ),
-              Image.asset('assets/icons/gift.jpg',),
+              Image.asset(
+                'assets/icons/gift.jpg',
+              ),
               InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>ReviewStar()));
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => ReviewStar()));
                   },
-                  child: Image.asset('assets/icons/star.jpg',)),
+                  child: Image.asset(
+                    'assets/icons/star.jpg',
+                  )),
             ],
           ),
         ),
@@ -87,9 +84,9 @@ class _ShopHomeState extends State<ShopHome> {
       endDrawer: DrawerSide(),
       appBar: AppBar(
         centerTitle: false,
-        title:Row(
+        title: Row(
           children: [
-             GestureDetector(
+            GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => CartView(cartKey: cartKey)));
               },
@@ -101,9 +98,13 @@ class _ShopHomeState extends State<ShopHome> {
                     height: 20,
                   )),
             ),
-            SizedBox(width: 5,),
-            Text('$count+',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16),),
-
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              '$count+',
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16),
+            ),
           ],
         ),
         elevation: 0,
@@ -112,18 +113,20 @@ class _ShopHomeState extends State<ShopHome> {
           color: Colors.black,
           // size: 33
         ),
-        backgroundColor:Color(0xffFBFAF8),
+        backgroundColor: Color(0xffFBFAF8),
         leading: Row(
           children: [
-            IconButton(onPressed: (){
-              Navigator.pop(context);
-            }, icon: Icon(Icons.arrow_back_ios_new)),
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back_ios_new)),
             // CircleAvatar(
             //     child: Image.asset('assets/icons/shopping-cart.png',height: 20,)),
           ],
         ),
       ),
-      body:ListView(
+      body: ListView(
         children: [
           Container(
             height: 170,
@@ -131,86 +134,90 @@ class _ShopHomeState extends State<ShopHome> {
             child: Column(
               children: [
                 Container(
-                  height:55,
+                    height: 55,
                     width: 280,
-                    color:Color(0xffFDB640),
-                    child: Center(child: Text('المتجر',
-                    style: TextStyle(fontWeight: FontWeight.w500,fontSize: 34,letterSpacing: 3),
+                    color: Color(0xffFDB640),
+                    child: Center(
+                        child: Text(
+                      'المتجر',
+                      style: TextStyle(fontWeight: FontWeight.w500, fontSize: 34, letterSpacing: 3),
                     ))),
-                SizedBox(height: 8,),
+                SizedBox(
+                  height: 8,
+                ),
                 Directionality(
                   textDirection: TextDirection.rtl,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 30.0,right: 30),
-                    child: Text('مرحبا بكم على متجر نوتريانا الذي نقترح فيه عليكم مكملات غذائية طبيعية تساعد في زيادة قوة الجسم ، زيادة الكتلة العضلية و محاربة أعراض القولون العصبي',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),
+                    padding: const EdgeInsets.only(left: 30.0, right: 30),
+                    child: Text(
+                      'مرحبا بكم على متجر نوتريانا الذي نقترح فيه عليكم مكملات غذائية طبيعية تساعد في زيادة قوة الجسم ، زيادة الكتلة العضلية و محاربة أعراض القولون العصبي',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ),
               ],
             ),
-
           ),
-          SizedBox(height: 30,),
+          SizedBox(
+            height: 30,
+          ),
           Directionality(
             textDirection: TextDirection.rtl,
             child: Container(
               height: 435,
-              child:   FutureBuilder(
+              child: FutureBuilder(
                 future: _getProducts(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     // Create a list of products
                     return ListView.builder(
-
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-
                         return GestureDetector(
-                          onTap: ()
-
-
-                          {
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>ProductOverview(
-                              productUrl: snapshot.data[index]["images"][0]["src"].toString(),
-                              productName:snapshot.data[index]["name"].toString(),
-                              productPrice: snapshot.data[index]["price"].toString(),
-                              discrition:  snapshot.data[index]["description"].toString(),
-                              count: count,
-                            )));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ProductOverview(
+                                          productUrl: snapshot.data[index]["images"][0]["src"].toString(),
+                                          productName: snapshot.data[index]["name"].toString(),
+                                          productPrice: snapshot.data[index]["price"].toString(),
+                                          discrition: snapshot.data[index]["description"].toString(),
+                                          count: count,
+                                        )));
                           },
                           child: Column(
                             children: [
                               ListTile(
-                                leading: Image.network(snapshot.data[index]["images"][0]["src"].toString(),height: 50,),
-                                title: Flexible(
-                                  child: Text(snapshot.data[index]["name"].toString(),style: TextStyle(
-                                    fontSize: 16,
-                                      color:Color(0xffFDB640),
-                                    fontWeight: FontWeight.bold,
-                                    overflow: TextOverflow.ellipsis
-                                  ),),
+                                leading: Image.network(
+                                  snapshot.data[index]["images"][0]["src"].toString(),
+                                  height: 50,
                                 ),
-                                subtitle:
-                                Text("Buy now for \AED " + snapshot.data[index]["price"].toString()),
+                                title: Flexible(
+                                  child: Text(
+                                    snapshot.data[index]["name"].toString(),
+                                    style: TextStyle(fontSize: 16, color: Color(0xffFDB640), fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis),
+                                  ),
+                                ),
+                                subtitle: Text("Buy now for \AED " + snapshot.data[index]["price"].toString()),
                                 trailing: InkWell(
-
-                                  onTap: (){
-                                   
+                                  onTap: () {
                                     setState(() {
-                                      var id= snapshot.data[index]['id'];
-                                      
+                                      var id = snapshot.data[index]['id'];
+
                                       addToCart(id);
-									  count ++;
+                                      count++;
                                     });
                                   },
                                   child: CircleAvatar(
-                                      backgroundColor:  Color(0xffFDB640),
-                                      child: Image.asset('assets/icons/shopping-cart.png',height: 20,)),
-                                ) ,
+                                      backgroundColor: Color(0xffFDB640),
+                                      child: Image.asset(
+                                        'assets/icons/shopping-cart.png',
+                                        height: 20,
+                                      )),
+                                ),
                               ),
-
                             ],
                           ),
                         );
@@ -219,14 +226,16 @@ class _ShopHomeState extends State<ShopHome> {
                   }
                   // Show a circular progress indicator while loading products
                   return const Center(
-                    child: CircularProgressIndicator(color:  Color(0xffFDB640),),
+                    child: CircularProgressIndicator(
+                      color: Color(0xffFDB640),
+                    ),
                   );
                 },
               ),
             ),
           ),
         ],
-      ) ,
+      ),
     );
   }
 }
