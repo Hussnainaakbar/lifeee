@@ -15,7 +15,6 @@ class OrderView extends StatefulWidget {
 }
 
 class _OrderViewState extends State<OrderView> {
-  bool orderP = false;
   List fields = [
     'Name',
     'Address',
@@ -51,9 +50,23 @@ class _OrderViewState extends State<OrderView> {
         body: body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       print('ORDER IS PLACED');
-      orderP = true;
+      Fluttertoast.showToast(
+          msg: "Order Placed Successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 4);
+
+      Future.delayed(Duration(seconds: 5), () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ShopHome()));
+      });
     } else {
       print('ORDER NOT PLACED');
+      Fluttertoast.showToast(
+          msg: "Empty Field or Invalid information",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 4);
     }
   }
 
@@ -69,19 +82,6 @@ class _OrderViewState extends State<OrderView> {
                 onPressed: () {
                   print("BUTTON PRESSED");
                   placeOrder();
-                  if (orderP == true) {
-                    Fluttertoast.showToast(
-                        msg: "Order Placed Successfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 4);
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: "Empty Field or Invalid information",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 4);
-                  }
 
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => ShopHome()));
@@ -108,7 +108,8 @@ class _OrderViewState extends State<OrderView> {
           children: fields
               .mapIndexed<Widget>((index, e) => Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextField(
+                    child: TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       keyboardType: e == 'Telephone'
                           ? TextInputType.phone
                           : TextInputType.name,
@@ -116,6 +117,33 @@ class _OrderViewState extends State<OrderView> {
                         hintText: e,
                         label: Text(e),
                       ),
+                      validator: (value) {
+                        if (e == 'Name') {
+                          if (value.toString().length < 3) {
+                            return 'Name should not less then 3 characters';
+                          } else {}
+                        } else if (e == 'Address') {
+                          if (value.toString().length < 8) {
+                            return 'Address should not less then 8 characters';
+                          } else {}
+                        } else if (e == 'Town') {
+                          if (value.toString().length < 4) {
+                            return 'Towns name should not less then 4 characters';
+                          } else {}
+                        } else if (e == 'Telephone') {
+                          if (value.toString().length < 10) {
+                            return 'Phone nmuber should not less then 10 characters';
+                          } else {}
+                        } else if (e == 'Email') {
+                          if (value.toString().length < 10) {
+                            return 'Email should not less then 10 characters';
+                          } else if (!RegExp(
+                                  r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
+                              .hasMatch(value.toString())) {
+                            return 'Please enter a valid Email';
+                          } else {}
+                        } else {}
+                      },
                       controller: fieldControllers[index],
                     ),
                   ))

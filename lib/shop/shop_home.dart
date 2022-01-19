@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:life_style_app/screens/cat_screen/cary_screen.dart';
 import 'package:life_style_app/screens/drawers/m_g_drawer_side.dart';
 import 'package:life_style_app/shop/cart_view.dart';
@@ -47,9 +48,19 @@ class _ShopHomeState extends State<ShopHome> {
         checking = true;
       });
       print('added to cart');
+      Fluttertoast.showToast(
+          msg: "Product added Successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2);
     } else {
       checking = false;
       print('cart not order');
+      Fluttertoast.showToast(
+          msg: "Something Went Wrong Try Again",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3);
     }
   }
 
@@ -98,11 +109,18 @@ class _ShopHomeState extends State<ShopHome> {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            CartView(cartKey: cartKey, checking: checking)));
+                Fluttertoast.showToast(
+                    msg: "opening cart please wait",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER,
+                    timeInSecForIosWeb: 2);
+                Future.delayed(Duration(seconds: 3), () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CartView(cartKey: cartKey, checking: checking)));
+                });
               },
               child: CircleAvatar(
                   radius: 20,
